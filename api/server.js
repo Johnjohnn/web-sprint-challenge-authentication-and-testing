@@ -15,5 +15,24 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 server.use('/api/jokes', restrict, jokesRouter); // only logged-in users should have access!
+server.get("/", async (req, res, next) => {
+    try {
+        res.status(200).json({
+            Message: "Welcome to Sprint3"
+        })
+    } catch (err) {
+        next(err);
+    }
+})
 
-module.exports = server;
+server.use((err, req, res, next) => {
+    console.log(err);
+    try {
+        res.status(500).json({
+            Message: "Something went wrong"
+        })
+    } catch (err) {
+        next(err);
+    }
+    
+})
